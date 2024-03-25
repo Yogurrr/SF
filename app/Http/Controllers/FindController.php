@@ -55,9 +55,6 @@ class FindController extends Controller
 
     public function updateTemporaryPassword(Request $request)
     {
-        // $userid = $request->input('userid');
-        // $temporary_pswd = $request->input('temporary_pswd');
-
         // 메일 보내기
         $data_array = array(
             'name' => $request->input('name'),

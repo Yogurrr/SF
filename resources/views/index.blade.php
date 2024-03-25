@@ -11,6 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
+
     <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -28,16 +30,28 @@
             <span style="color: gold;">스프</span>
             <img src="/image/soup.png" alt="" style="width: 2.7%;" class="pt-0 mt-0">
         </p>
-        <div class="row" id="btnDiv">
-            <button type="button" class="col-2 offset-4 me-1 btn fw-bold" data-bs-toggle="modal"
-                data-bs-target="#soupLoginModal" style="background-color: gold;">스프 아이디로 로그인</button>
-            <button type="button" class="col-2 ms-1 btn fw-bold" id="kakaoLoginBtn" data-bs-toggle="modal"
-                data-bs-target="#soupLoginModal" style="background-color: gold;">카카오 아이디로 로그인</button>
+        <div id="btnDiv">
+            <div class="row mt-2">
+                <button type="button" class="offset-4 col-4 btn fw-bold" style="background-color: gold; font-size: 18px;"
+                    data-bs-toggle="modal" data-bs-target="#soupLoginModal">스프 아이디로 로그인</button>
+            </div>
+            <div class="row mt-2">
+                <a href="{{ route('google.redirect') }}" class="offset-4 col-4 fw-bold btn btn-outline-primary 
+                    d-flex align-items-center justify-content-center" style="font-size: 18px;">
+                    <img src="/image/google.png" alt="" style="width: 5%; height: auto;">&nbsp;구글 아이디로 로그인
+                </a>
+            </div>
+            <div class="row mt-2">
+                <a href="{{ route('naver.redirect') }}" class="offset-4 col-4 fw-bold btn btn-outline-success 
+                    d-flex align-items-center justify-content-center" style="font-size: 18px;">
+                    <img src="/image/letter-n.png" alt="" style="width: 5%; height: auto;">&nbsp;네이버 아이디로 로그인
+                </a>
+            </div>
         </div>
-        <div class=""></div>
     </div>
 </body>
 
+<!-- 스프 아이디 로그인 -->
 <div class="modal fade" id="soupLoginModal" tabindex="-1" aria-labelledby="soupLoginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="width: 400px;">
         <div class="modal-content" style="height: 450px;">
@@ -45,7 +59,7 @@
                 <div class="text-center fs-5 fw-bold">스프 아이디로 로그인</div>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('login.perform2') }}">
+                <form method="POST" action="{{ route('login.perform') }}">
                     @csrf
 
                     <div class="row ms-2" style="margin-top: 20%">
@@ -80,7 +94,10 @@
     </div>
 </div>
 
+
+
 <script>
+    
 </script>
 
 <style>

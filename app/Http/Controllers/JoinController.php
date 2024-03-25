@@ -37,4 +37,17 @@ class JoinController extends Controller
             'email' => $data['email'],
         ]);
     }
+
+    // 아이디 중복 확인
+    public function checkIdDuplication(Request $request)
+    {
+        $userid = $request -> input('userid_value');
+        $user = User::where('userid', $userid)->first();
+
+        if ($user) {
+            return response()->json(['id' => $user->id]);
+        } else {
+            return response()->json(['message' => 'User not found']);
+        }
+    }
 }

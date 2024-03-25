@@ -16,5 +16,8 @@ class User extends Authenticatable
         'userid',
         'password',
         'email',
+        'provider',
+        'socialid',
+        'token',
     ];
 }

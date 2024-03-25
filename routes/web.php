@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\FindController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\MailSendController;
+
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +23,13 @@ use App\Http\Controllers\MailSendController;
 
 // Route for Guest
 Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::post('login-perform2', [HomeController::class, 'loginPerform'])->name('login.perform2');
+Route::post('login-perform', [HomeController::class, 'loginPerform'])->name('login.perform');
 Route::get('logout', [HomeController::class, 'Logout'])->name('logout');
+Route::post('kakaoLogin', [HomeController::class, 'kakaoLogin'])->name('kakaoLogin');
 
 Route::get('/join', [JoinController::class, 'join'])->name('join');
 Route::post('join-perform', [JoinController::class, 'joinPerform'])->name('join.perform');
+Route::post('/checkIdDuplication', [JoinController::class, 'checkIdDuplication'])->name('checkIdDuplication');
 
 Route::get('/find-userid', [FindController::class, 'findUserid'])->name('find-userid');
 Route::get('/getUseridByEmail', [FindController::class, 'getUseridByEmail'])->name('getUseridByEmail');
@@ -57,14 +59,10 @@ Route::get('/user', [UserController::class, 'user'])->name('user');
 Route::post('/update-password', [UserController::class, 'updatePassword'])->name('update-password');
 Route::post('/delete-account', [UserController::class, 'deleteAccount'])->name('delete-account');
 
+// Route for Google Login
+Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 
-
-
-
-// test
-Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
-Route::get('login', [AuthController::class, 'index'])->name('login');
-Route::post('login-perform', [AuthController::class, 'customLogin'])->name('login.perform');
-Route::get('register', [AuthController::class, 'registration'])->name('register');
-Route::post('registration-perform', [AuthController::class, 'customRegistration'])->name('register.perform');
-Route::get('signout', [AuthController::class, 'signOut'])->name('signout');
+// Route for Naver Login
+Route::get('/naver/redirect', [App\Http\Controllers\NaverLoginController::class, 'redirectToNaver'])->name('naver.redirect');
+Route::get('/naver/callback', [App\Http\Controllers\NaverLoginController::class, 'handleNaverCallback'])->name('naver.callback');
