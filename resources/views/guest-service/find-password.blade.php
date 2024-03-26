@@ -79,7 +79,6 @@
         })
         .then(data => {
             let temporary_pswd = generate_temporary_password();
-            console.log('tp : ' + temporary_pswd);
 
             confirm_btn.disabled = true;
                 

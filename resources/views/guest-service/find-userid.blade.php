@@ -54,7 +54,7 @@
                     alert.style.display = "block";
                     alert.classList.remove("alert-danger");
                     alert.classList.add("alert-warning");
-                    message.innerText = "당신의 아이디 : " + result.userid;
+                    message.innerText = "회원님의 ID는 [" + result.userid + '] 입니다.';
                 } else if(httpRequest.status === 404) {
                     let result = httpRequest.response;
 

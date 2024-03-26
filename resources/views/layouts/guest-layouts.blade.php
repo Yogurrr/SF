@@ -34,7 +34,7 @@
                     <li><a class="dropdown-item" href="/">홈/로그인</a></li>
                     <li><a class="dropdown-item" href="/join">회원가입</a></li>
                     <li><a class="dropdown-item" href="/find-userid">아이디 찾기</a></li>
-                    <li><a class="dropdown-item" href="#">비밀번호 찾기</a></li>
+                    <li><a class="dropdown-item" href="/find-password">비밀번호 찾기</a></li>
                 </ul>
             </div>
         </div>

@@ -19,11 +19,11 @@
                     <div class="form-group mb-3">
                         <div class="floating-label-group">
                             <input type="text" id="userid" class="form-control" name="userid" required autofocus maxlength="20">
-                            <label class="floating-label">아이디</label>
+                            <label class="floating-label">ID</label>
                         </div>
                         <div class="mt-2 row">
                             <button type="button" class="rounded col-auto ms-3" style="background-color: palegoldenrod; 
-                                border: 1px solid palegoldenrod; font-size: 15px;" id="chk_dup_btn" disabled>아이디 중복 확인</button>
+                                border: 1px solid palegoldenrod; font-size: 15px;" id="chk_dup_btn" disabled>ID 중복 확인</button>
                             <div class="col-auto fw-bold d-flex align-items-center" id="dup_message"></div>
                         </div>
                         @if ($errors->has('userid'))
