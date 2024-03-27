@@ -15,7 +15,7 @@ class Schedule extends Model
     // 칼럼
     protected $fillable = [
         'sno',
-        'userid',
+        'id',
         'sdate',
         'schedule',
     ];

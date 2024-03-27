@@ -15,7 +15,7 @@ class To_do extends Model
     // 칼럼
     protected $fillable = [
         'tno',
-        'userid',
+        'id',
         'tdate',
         'to_do',
         'is_checked'

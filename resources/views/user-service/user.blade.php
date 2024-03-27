@@ -5,14 +5,14 @@
 
     <div class="card mt-3">
         <div class="card-header">기본 정보</div>
-        <div class="card-body">
+        <div class="card-body" id="user_info">
             <div>이름 : {{ Auth::user()->name }}</div>
             <div>아이디 : {{ Auth::user()->userid }}</div>
             <div>이메일 : {{ Auth::user()->email }}</div>
         </div>
     </div>
 
-    <div class="card mt-3">
+    <div class="card mt-3" id="pswd_update_card">
         <div class="card-header">비밀번호 수정</div>
         <form method="post" action="{{ route('update-password') }}" class="mt-6 space-y-6">
             @csrf
@@ -61,27 +61,6 @@
                 <button type="submit" class="btn fw-bold" style="background-color: gold;">저장</button>
             </div>
         </form>
-    </div>
-
-    <div class="card mt-3">
-        <div class="card-header">계정 삭제</div>
-        <div class="card-body">
-            <div>
-                <strong>계정이 삭제되면 모든 리소스와 데이터가 영구적으로 삭제됩니다.</strong>
-            </div>
-            <div>
-                <strong>계정을 삭제하기 전에 보관하려는 데이터나 정보를 다운로드하십시오.</strong>
-            </div>
-            @if (session('error2'))
-            <div class="alert alert-danger mt-3 mb-1" role="alert">
-                {{ session('error2') }}
-            </div>
-            @endif
-        </div>
-        <div class="card-footer">
-            <button class="btn btn-danger fw-bold" data-bs-toggle="modal" type="submit"
-                data-bs-target="#confirmDeletionModal">계정 삭제</button>
-        </div>
     </div>
 
     <div class="card mt-3">
@@ -134,27 +113,45 @@
             </div>
         </div>
     </div>
+
+    <div class="card mt-3">
+        <div class="card-header">회원 탈퇴</div>
+        <div class="card-body">
+            <button class="btn btn-danger fw-bold" data-bs-toggle="modal" type="submit"
+                data-bs-target="#confirmDeletionModal" id="acct_del_btn">회원 탈퇴</button>
+        </div>
+    </div>
 </main>
 
-<!-- Modal -->
+<!-- 계정 삭제 재확인 모달 -->
 <div class="modal fade" id="confirmDeletionModal" tabindex="-1" aria-labelledby="confirmDeletionModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered custom-modal-width">
         <div class="modal-content p-4">
-            <div class="fs-5">계정을 삭제하시겠습니까?</div>
-            <div class="mt-1">
-                계정을 영구적으로 삭제하기 위해 암호를 입력해주세요.
-            </div>
-            <form action="{{ route('delete-account') }}" method="POST">
-                @csrf
-                <div class="mt-4">
-                    <input id="password_for_deletion" name="password_for_deletion" type="password"
-                        placeholder="비밀번호" class="form-control border-2" />
-                    
+            <div class="fs-5 pb-3 fw-bold" style="border-bottom: 1px solid grey;">회원 탈퇴 이전에 아래의 사항을 확인해주세요.</div>
+            <div class="mt-1 pt-3 fs-5 row mb-2">
+                <div class="col-8 d-flex align-items-center">아이디 복구 불가</div>
+                <div class="col-4 d-flex align-items-center justify-content-end">
+                    <input type="checkbox" class="form-check-input mt-0" id="unable_to_recover_ID">&nbsp;동의
                 </div>
+            </div>
+            <div class="p-3" style="background-color: whitesmoke;">
+                <p class="m-0">회원 탈퇴가 완료되면 이후 <span class="text-danger">아이디 복구는 불가</span>합니다.</p>
+            </div>
+            <div class="mt-1 pt-3 fs-5 row mb-2">
+                <div class="col-8 d-flex align-items-center">사용자 정보 소멸</div>
+                <div class="col-4 d-flex align-items-center justify-content-end">
+                    <input type="checkbox" class="form-check-input mt-0" id="disappear_user_info">&nbsp;동의
+                </div>
+            </div>
+            <div class="p-3" style="background-color: whitesmoke;">
+                고객정보보호 관련법에 따라 회원 탈퇴가 완료되면 회원 정보 및 관련된 모든 정보가 삭제 또는 소멸합니다.
+            </div>
+            <form action="{{ route('delete-account') }}" method="POST" id="delete_account_form">
+                @csrf
                 <div class="d-flex justify-content-end mt-3">
                     <button type="button" class="btn me-2 fw-bold border border-2" data-bs-dismiss="modal">취소</button>
-                    <button type="submit" class="btn btn-danger">계정 삭제</button>
+                    <button type="submit" class="btn btn-danger" id="del_acct_btn" disabled>회원 탈퇴</button>
                 </div>
             </form>
         </div>
@@ -443,6 +440,60 @@
             my_weekly_chart.update();
         });
     };
+
+    // 소셜 로그인 회원 정보
+    let user_info = document.querySelector('#user_info');
+    let auth_userid = `{{ Auth::user() -> userid }}`;
+    let auth_email = `{{ Auth::user() -> email }}`;
+    let acct_del_btn = document.querySelector('#acct_del_btn');
+
+    // 구글
+    if(auth_userid == '' && auth_email) {
+        user_info.innerHTML = `
+            <div>이름 : {{ Auth::user() -> name }}</div>
+            <div>이메일 : ${auth_email}</div>
+            <h5 class="mt-1">
+                <span class="badge text-bg-primary ">구글 계정</span>
+            </h5>
+        `;
+    }
+
+    // 네이버
+    if(auth_userid == '' && auth_email == '') {
+        user_info.innerHTML = `
+            <div>이름 : {{ Auth::user()->name }}</div>
+            <h5 class="mt-1">
+                <span class="badge text-bg-success ">네이버 계정</span>
+            </h5>
+        `;
+    }
+
+    // 소셜 계정에는 비밀번호 수정 부분 안 보이기
+    let pswd_update_card = document.querySelector('#pswd_update_card');
+    if(auth_userid == '' || auth_email == '') {
+        pswd_update_card.style.display = 'none';
+    }
+
+    // 회원 탈퇴
+    let unable_to_recover_ID = document.querySelector('#unable_to_recover_ID');
+    let disappear_user_info = document.querySelector('#disappear_user_info');
+    let del_acct_btn = document.querySelector('#del_acct_btn');
+
+    unable_to_recover_ID.addEventListener('change', () => {
+        if (unable_to_recover_ID.checked && disappear_user_info.checked) {
+            del_acct_btn.disabled = false;
+        } else {
+            del_acct_btn.disabled = true;
+        }
+    });
+
+    disappear_user_info.addEventListener('change', () => {
+        if (disappear_user_info.checked && unable_to_recover_ID.checked) {
+            del_acct_btn.disabled = false;
+        } else {
+            del_acct_btn.disabled = true;
+        }
+    });
 </script>
 
 <style>
@@ -455,6 +506,21 @@
     .card-header {
         background-color: palegoldenrod;
         font-weight: bold;
+    }
+
+    .form-check-input {
+        width: 1.5em;
+        height: 1.5em;
+    }
+
+    .form-check-input:checked {
+        background-color: salmon;
+        border-color: salmon;
+    }
+
+    .form-check-input:focus {
+        border-color: salmon;
+        box-shadow: 0 0 0 0.2rem rgba(250, 128, 114, 0.3);
     }
 </style>
 @endsection

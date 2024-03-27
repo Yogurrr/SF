@@ -14,15 +14,15 @@ class CalendarController extends Controller
     public function calendar() 
     {
         if (Auth::check()) {
-            $userid = Auth::user()->userid;
+            $id = Auth::user()->id;
 
             $scounts = Schedule::select('sdate', DB::raw('count(*) as count'))
-                        ->where('userid', $userid)
+                        ->where('id', $id)
                         ->groupBy('sdate')
                         ->get();
 
             $tcounts = To_do::select('tdate', DB::raw('count(*) as count'))
-                        ->where('userid', $userid)
+                        ->where('id', $id)
                         ->groupBy('tdate')
                         ->get();
 
@@ -34,15 +34,15 @@ class CalendarController extends Controller
 
     public function getScheduleByDate(Request $request)
     {
-        $userid = Auth::user()->userid;
+        $id = Auth::user()->id;
         $dateVariable = $request->query('dateVariable');
 
         $schedules = Schedule::where('sdate', $dateVariable)
-                    ->where('userid', $userid)
+                    ->where('id', $id)
                     ->get();
 
         $todos = To_do::where('tdate', $dateVariable)
-                    ->where('userid', $userid)
+                    ->where('id', $id)
                     ->get();
 
         $returnMap = [
@@ -62,7 +62,7 @@ class CalendarController extends Controller
         ]);
 
         Schedule::create([
-            'userid' => Auth::user()->userid,
+            'id' => Auth::user()->id,
             'sdate' => $request->date_or_num,
             'schedule' => $request->add_and_mod_input,
         ]);
@@ -114,7 +114,7 @@ class CalendarController extends Controller
         ]);
 
         To_do::create([
-            'userid' => Auth::user()->userid,
+            'id' => Auth::user()->id,
             'tdate' => $request->date_or_num,
             'to_do' => $request->add_and_mod_input,
         ]);

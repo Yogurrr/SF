@@ -15,23 +15,10 @@ class UserController extends Controller
     public function user() 
     {
         if (Auth::check()) {
-            $userid = Auth::user()->userid;
-
-            $todo_counts = To_do::select(DB::raw('count(*) as count'))
-                        ->where('userid', $userid)
-                        ->get();
-
-            $checked_todo_counts = To_do::select(DB::raw('count(*) as count'))
-                                ->where('userid', $userid)
-                                ->where('is_checked', 1)
-                                ->get();
-
-            $todo = To_do::where('userid', $userid)->get();
-
+            $id = Auth::user()->id;
+            $todo = To_do::where('id', $id)->get();
 
             return view('user-service.user', [
-                'todo_counts' => $todo_counts, 
-                'checked_todo_counts' => $checked_todo_counts,
                 'todo' => $todo,
             ]);
         }
@@ -61,13 +48,8 @@ class UserController extends Controller
 
     public function deleteAccount(Request $request) 
     {
-        // 현재 비밀번호 일치 여부
-        if(!Hash::check($request->password_for_deletion, auth()->user()->password)){
-            return back()->with("error2", "현재 비밀번호가 일치하지 않습니다.");
-        }
-
-        Schedule::where('userid', Auth::user()->userid)->delete();
-        To_do::where('userid', Auth::user()->userid)->delete();
+        Schedule::where('id', Auth::user()->id)->delete();
+        To_do::where('id', Auth::user()->id)->delete();
         User::whereId(auth()->user()->id)->delete();
 
         return redirect("/");
