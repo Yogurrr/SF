@@ -5,7 +5,6 @@
 
 ## 개발 환경
 + `PHP 8.0.2`
-+ `Laravel 9.19`
 + **Framework** : Laravel 9.19
 + **Database** : Maria DB 10.12
 
@@ -41,7 +40,9 @@
 
 #### 회원정보
 + 회원정보 변경
-<img src='./public/image/user_update.jpg'>
+<img src='./public/image/update_password.jpg'>
+<img src='./public/image/delete_account.jpg'>
+<img src='./public/image/delete_account_message.jpg'>
 
 + 투두 달성률 통계
 <img src='./public/image/achievement_rate.jpg'>
